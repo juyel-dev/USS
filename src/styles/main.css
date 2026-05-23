@@ -1,0 +1,522 @@
+/* =========================================
+   1. DESIGN TOKENS (CSS Variables)
+   ========================================= */
+:root {
+  /* Colors */
+  --color-primary: #1A6FBA;
+  --color-primary-light: #E8F2FB;
+  --color-primary-dark: #1255A0;
+  --color-secondary: #0D9E6A;
+  --color-accent: #F5A623;
+  --color-emergency: #E53E3E;
+  --color-bg: #F4F7FB;
+  --color-surface: #FFFFFF;
+  --color-border: #E2E8F0;
+  --color-text: #1A202C;
+  --color-text-secondary: #4A5568;
+  --color-text-muted: #718096;
+
+  /* Typography */
+  --font-display: 'Hind Siliguri', 'Noto Sans Bengali', sans-serif;
+  --font-body: 'Noto Sans Bengali', 'Hind Siliguri', sans-serif;
+  --font-number: 'Nunito', sans-serif;
+
+  /* Sizing */
+  --text-xs: 11px;
+  --text-sm: 13px;
+  --text-md: 15px;
+  --text-lg: 17px;
+  --text-xl: 20px;
+  --text-2xl: 24px;
+  --text-3xl: 30px;
+
+  /* Spacing */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+
+  /* Radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);  --shadow-md: 0 2px 8px rgba(0,0,0,0.08);
+  --shadow-lg: 0 4px 16px rgba(0,0,0,0.10);
+  --shadow-card: 0 2px 12px rgba(26,111,186,0.08);
+
+  /* Layout */
+  --navbar-height: 64px;
+  --topbar-height: 56px;
+  --safe-area-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-area-top: env(safe-area-inset-top, 0px);
+
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-normal: 250ms ease;
+  --transition-slow: 350ms ease;
+}
+
+/* =========================================
+   2. RESET & BASE
+   ========================================= */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.5;
+  overflow-x: hidden;
+  min-height: 100vh;
+  padding-top: calc(var(--topbar-height) + var(--safe-area-top));
+  padding-bottom: calc(var(--navbar-height) + var(--safe-area-bottom));
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--color-text);
+}
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+  outline: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* Numbers & English text override */
+.num, .rating, .fee, .phone {
+  font-family: var(--font-number);
+  font-weight: 700;
+}
+
+/* =========================================
+   3. LAYOUT & APP SHELL
+   ========================================= */
+#app-container {
+  max-width: 500px; /* Mobile-first max width for larger screens */
+  margin: 0 auto;
+  position: relative;
+  min-height: 100vh;
+  background-color: var(--color-bg);
+  box-shadow: 0 0 20px rgba(0,0,0,0.05);
+}
+
+.main-content {
+  padding: var(--space-4);
+  min-height: calc(100vh - var(--topbar-height) - var(--navbar-height));
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* =========================================
+   4. TOPBAR
+   ========================================= */
+.topbar {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);  width: 100%;
+  max-width: 500px;
+  height: calc(var(--topbar-height) + var(--safe-area-top));
+  padding-top: var(--safe-area-top);
+  background: var(--color-surface);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: var(--space-3);
+  padding-right: var(--space-3);
+  box-shadow: var(--shadow-sm);
+  z-index: 100;
+}
+
+.topbar__title {
+  font-size: var(--text-lg);
+  font-weight: 600;
+  flex: 1;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.topbar__btn {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-full);
+  color: var(--color-text);
+  transition: background var(--transition-fast);
+}
+
+.topbar__btn:active {
+  background: var(--color-primary-light);
+}
+
+/* =========================================
+   5. BOTTOM NAVBAR
+   ========================================= */
+.navbar {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 500px;
+  height: calc(var(--navbar-height) + var(--safe-area-bottom));  padding-bottom: var(--safe-area-bottom);
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  z-index: 100;
+}
+
+.navbar__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  height: 100%;
+  color: var(--color-text-muted);
+  transition: color var(--transition-fast);
+  position: relative;
+}
+
+.navbar__item.active {
+  color: var(--color-primary);
+}
+
+.navbar__icon {
+  width: 24px;
+  height: 24px;
+  margin-bottom: 2px;
+  stroke-width: 2;
+}
+
+.navbar__item.active .navbar__icon {
+  stroke-width: 2.5;
+  fill: rgba(26, 111, 186, 0.1);
+}
+
+.navbar__label {
+  font-size: var(--text-xs);
+  font-family: var(--font-display);
+  font-weight: 500;
+}
+
+.navbar__item.active .navbar__label {
+  font-weight: 700;
+}
+
+/* =========================================
+   6. CARD COMPONENTS
+   ========================================= */.card {
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  padding: var(--space-4);
+  margin-bottom: var(--space-4);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.card:active {
+  transform: scale(0.98);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Doctor Card */
+.doctor-card {
+  display: flex;
+  gap: var(--space-3);
+}
+
+.doctor-card__img {
+  width: 72px;
+  height: 72px;
+  border-radius: var(--radius-full);
+  object-fit: cover;
+  background: var(--color-primary-light);
+  flex-shrink: 0;
+}
+
+.doctor-card__info {
+  flex: 1;
+  min-width: 0;
+}
+
+.doctor-card__name {
+  font-size: var(--text-lg);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.badge-verified {
+  color: var(--color-secondary);
+  font-size: 14px;
+}
+
+.doctor-card__degree {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);  margin-top: 2px;
+}
+
+.doctor-card__specialty {
+  display: inline-block;
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  margin-top: var(--space-2);
+}
+
+.doctor-card__meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.rating-stars {
+  color: var(--color-accent);
+}
+
+.doctor-card__actions {
+  display: flex;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+  border-top: 1px solid var(--color-border);
+  padding-top: var(--space-3);
+}
+
+.btn {
+  flex: 1;
+  padding: 10px;
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: opacity var(--transition-fast);
+}
+
+.btn:active { opacity: 0.8; }
+.btn--primary { background: var(--color-primary); color: #fff; }
+.btn--secondary { background: var(--color-primary-light); color: var(--color-primary); }
+.btn--success { background: #E6F7F0; color: var(--color-secondary); }
+
+/* Category Grid */
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3);
+}
+
+.category-card {
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition-fast);
+}
+
+.category-card:active { transform: scale(0.95); }
+
+.category-card__icon {
+  width: 40px;
+  height: 40px;
+  margin-bottom: var(--space-2);
+  color: var(--color-primary);
+}
+
+.category-card__label {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-text);
+  line-height: 1.2;
+}
+
+/* =========================================
+   7. SKELETON LOADERS
+   ========================================= */
+.skeleton-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.skeleton-card {  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  display: flex;
+  gap: var(--space-3);
+}
+
+.skeleton-image {
+  width: 72px;
+  height: 72px;
+  border-radius: var(--radius-full);
+  background: #E2E8F0;
+}
+
+.skeleton-line {
+  height: 14px;
+  border-radius: 4px;
+  background: #E2E8F0;
+  margin-bottom: 8px;
+}
+
+.w-60 { width: 60%; }
+.w-40 { width: 40%; }
+.w-80 { width: 80%; }
+
+.animate-pulse {
+  animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* =========================================
+   8. MODALS & OVERLAYS
+   ========================================= */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--transition-normal), visibility var(--transition-normal);
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+.modal-container {
+  background: var(--color-surface);
+  width: 100%;
+  max-width: 500px;
+  max-height: 85vh;
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  padding: var(--space-5);
+  transform: translateY(100%);
+  transition: transform var(--transition-normal);
+  overflow-y: auto;
+}
+
+.modal-overlay.active .modal-container {
+  transform: translateY(0);
+}
+
+/* =========================================
+   9. FAB (Floating Action Button)
+   ========================================= */
+.fab {
+  position: fixed;
+  bottom: calc(var(--navbar-height) + var(--safe-area-bottom) + 16px);
+  right: 16px;
+  z-index: 90;
+}
+
+.fab__trigger {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-full);
+  background: var(--color-emergency);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(229, 62, 62, 0.4);
+  transition: transform var(--transition-fast);
+}
+
+.fab__trigger:active { transform: scale(0.9); }
+
+/* =========================================
+   10. ANIMATIONS & KEYFRAMES
+   ========================================= */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes fadeIn {  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+/* =========================================
+   11. UTILITIES
+   ========================================= */
+.section-title {
+  font-size: var(--text-xl);
+  margin-bottom: var(--space-4);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.section-title__link {
+  font-size: var(--text-sm);
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.text-muted { color: var(--color-text-muted); }
+.text-primary { color: var(--color-primary); }
+.text-emergency { color: var(--color-emergency); }
+.fw-bold { font-weight: 700; }
+.mt-4 { margin-top: var(--space-4); }
+.mb-4 { margin-bottom: var(--space-4); }
